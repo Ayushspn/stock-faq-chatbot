@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #050810;
+  color: #c8d8f0;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Grid background texture ─────────────────────────────────────────────── */
+.grid-bg {
+  background-color: #050810;
+  background-image:
+    linear-gradient(rgba(16, 232, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 232, 136, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ── Scanline overlay ─────────────────────────────────────────────────────── */
+.scanlines::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  z-index: 9999;
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: #0c1120; }
+::-webkit-scrollbar-thumb  { background: #1a2744; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #10e888; }
+
+/* ── Glow utilities ───────────────────────────────────────────────────────── */
+.glow-green  { box-shadow: 0 0 8px rgba(16, 232, 136, 0.4); }
+.glow-amber  { box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+.text-glow   { text-shadow: 0 0 10px rgba(16, 232, 136, 0.6); }
+
+/* ── Prose formatting inside AI messages ─────────────────────────────────── */
+.ai-prose p   { margin: 0 0 0.75rem; }
+.ai-prose ul  { margin: 0.5rem 0; padding-left: 1.25rem; list-style: "▸  "; }
+.ai-prose li  { margin-bottom: 0.25rem; }
+.ai-prose strong { color: #10e888; font-weight: 600; }
+.ai-prose code {
+  background: #1a2744;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
