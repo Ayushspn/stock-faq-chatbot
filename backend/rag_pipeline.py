@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 
-import anthropic
+import ollama
 
 from config import settings
 from vector_store import VectorStore
@@ -37,7 +37,7 @@ class RAGPipeline:
 
     def __init__(self, vector_store: VectorStore):
         self.vector_store = vector_store
-        self.claude = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+        self.client = ollama.Client(host=settings.OLLAMA_BASE_URL)
 
     # ------------------------------------------------------------------ #
     #  Main entry                                                          #
@@ -77,14 +77,15 @@ class RAGPipeline:
 Question: {question}"""
 
         # Step 4: Call Claude
-        response = self.claude.messages.create(
-            model=settings.CLAUDE_MODEL,
-            max_tokens=settings.MAX_TOKENS,
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_message}],
+        response = self.client.chat(
+            model=settings.OLLAMA_MODEL,
+            messages= [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_message},
+        ],
+        options={"num_predict": settings.MAX_TOKENS, "temperature": 0.3},
         )
-
-        answer_text = response.content[0].text
+        answer_text = response["message"]["content"]
 
         # Step 5: Format sources for frontend
         sources = self._format_sources(hits)

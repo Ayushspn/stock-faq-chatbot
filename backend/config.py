@@ -5,9 +5,9 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    # Anthropic
-    ANTHROPIC_API_KEY: str = ""
-    CLAUDE_MODEL: str = "claude-sonnet-4-20250514"
+    # Ollama (local — no API key needed)
+    OLLAMA_MODEL: str = "llama3.2:latest"
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
     MAX_TOKENS: int = 1024
 
     # ChromaDB
